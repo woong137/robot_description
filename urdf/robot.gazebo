@@ -92,6 +92,7 @@
 
     <!-- camera -->
     <gazebo reference="camera_link">
+        <material>Gazebo/DarkGrey</material>
         <sensor type="camera" name="camera1">
             <update_rate>30.0</update_rate>
             <camera name="head">
@@ -117,7 +118,7 @@
             <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
                 <alwaysOn>true</alwaysOn>
                 <updateRate>0.0</updateRate>
-                <cameraName>rrbot/camera1</cameraName>
+                <cameraName>robot/camera1</cameraName>
                 <imageTopicName>image_raw</imageTopicName>
                 <cameraInfoTopicName>camera_info</cameraInfoTopicName>
                 <frameName>camera_link</frameName>
