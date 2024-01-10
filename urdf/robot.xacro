@@ -238,7 +238,7 @@
                 <cylinder radius="0.15" length="0.20" />
             </geometry>
             <material name="Red">
-                <color rgba="0.7 0.1 0.1 1" />
+                <color rgba="1 0 0 1" />
             </material>
         </visual>
         <collision>
@@ -270,7 +270,7 @@
             <geometry>
                 <box size="${camera_link} ${camera_link} ${camera_link}" />
             </geometry>
-            <material name="red" />
+            <material name="Red" />
         </visual>
 
         <inertial>
@@ -300,7 +300,7 @@
                 <cylinder radius="0.05" length="0.40" />
             </geometry>
             <material name="Red">
-                <color rgba="0.7 0.1 0.1 1" />
+                <color rgba="1 0 0 1" />
             </material>
         </visual>
         <collision>
