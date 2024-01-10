@@ -1,4 +1,4 @@
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 
 <robot name="robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
@@ -6,7 +6,8 @@
 
     <!-- Parameters -->
     <xacro:property name="chassis_mass" value="10" />
-    <xacro:property name="pi" value="3.1415926535897931"/>
+    <xacro:property name="pi" value="3.1415926535897931" />
+    <xacro:property name="camera_link" value="0.05" /> <!-- Size of square 'camera' box -->
 
     <!-- Link - chassis -->
     <link name="link_chassis">
@@ -50,7 +51,8 @@
         <inertial>
             <mass value="1" />
             <origin xyz="0 0 0" rpy="0 0 0" />
-            <inertia ixx="0.002526666666667" ixy="0" ixz="0" iyy="0.002526666666667" iyz="0" izz="0.005"/>
+            <inertia ixx="0.002526666666667" ixy="0" ixz="0" iyy="0.002526666666667" iyz="0"
+                izz="0.005" />
         </inertial>
 
         <!-- Caster wheel support -->
@@ -102,14 +104,15 @@
         <inertial>
             <mass value="1" />
             <origin xyz="0 0 0" rpy="0 0 0" />
-            <inertia ixx="0.002526666666667" ixy="0" ixz="0" iyy="0.002526666666667" iyz="0" izz="0.005"/>
+            <inertia ixx="0.002526666666667" ixy="0" ixz="0" iyy="0.002526666666667" iyz="0"
+                izz="0.005" />
         </inertial>
 
         <!-- Tires -->
         <collision>
             <origin rpy="${pi/2} 0 0" xyz="0 0.18 0" />
             <geometry>
-                <cylinder length="0.12" radius="0.4"/>
+                <cylinder length="0.12" radius="0.4" />
             </geometry>
         </collision>
         <visual>
@@ -126,13 +129,13 @@
         <collision>
             <origin rpy="${pi/2} 0 0" xyz="0 0.06 0" />
             <geometry>
-                <cylinder length="0.12" radius="0.08"/>
+                <cylinder length="0.12" radius="0.08" />
             </geometry>
         </collision>
         <visual>
             <origin rpy="${pi/2} 0 0" xyz="0 0.06 0" />
             <geometry>
-                <cylinder length="0.12" radius="0.08"/>
+                <cylinder length="0.12" radius="0.08" />
             </geometry>
             <material name="Grey">
                 <color rgba="0.6 0.6 0.6 1" />
@@ -165,14 +168,15 @@
         <inertial>
             <mass value="1" />
             <origin xyz="0 0 0" rpy="0 0 0" />
-            <inertia ixx="0.002526666666667" ixy="0" ixz="0" iyy="0.002526666666667" iyz="0" izz="0.005"/>
+            <inertia ixx="0.002526666666667" ixy="0" ixz="0" iyy="0.002526666666667" iyz="0"
+                izz="0.005" />
         </inertial>
 
         <!-- Tires -->
         <collision>
             <origin rpy="${pi/2} 0 0" xyz="0 -0.18 0" />
             <geometry>
-                <cylinder length="0.12" radius="0.4"/>
+                <cylinder length="0.12" radius="0.4" />
             </geometry>
         </collision>
         <visual>
@@ -189,13 +193,13 @@
         <collision>
             <origin rpy="${pi/2} 0 0" xyz="0 -0.06 0" />
             <geometry>
-                <cylinder length="0.12" radius="0.08"/>
+                <cylinder length="0.12" radius="0.08" />
             </geometry>
         </collision>
         <visual>
             <origin rpy="${pi/2} 0 0" xyz="0 -0.06 0" />
             <geometry>
-                <cylinder length="0.12" radius="0.08"/>
+                <cylinder length="0.12" radius="0.08" />
             </geometry>
             <material name="Grey">
                 <color rgba="0.6 0.6 0.6 1" />
@@ -225,25 +229,56 @@
         <inertial>
             <origin xyz="0 0 0" rpy="0 0 0" />
             <mass value="0.5" />
-            <inertia ixx="0.000252666666667" ixy="0" ixz="0" iyy="0.000252666666667" iyz="0" izz="0.0005"/>
+            <inertia ixx="0.000252666666667" ixy="0" ixz="0" iyy="0.000252666666667" iyz="0"
+                izz="0.0005" />
         </inertial>
         <visual>
             <origin xyz="0 0 0" rpy="0 0 0" />
             <geometry>
-                <cylinder radius="0.15" length="0.20"/>
+                <cylinder radius="0.15" length="0.20" />
             </geometry>
             <material name="Red">
                 <color rgba="0.7 0.1 0.1 1" />
             </material>
         </visual>
         <collision>
-            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <origin xyz="0 0 0" rpy="0 0 0" />
             <geometry>
-                <cylinder radius="0.15" length="0.20"/>
+                <cylinder radius="0.15" length="0.20" />
             </geometry>
         </collision>
     </link>
 
+    <joint name="camera_joint" type="fixed">
+        <axis xyz="0 1 0" />
+        <origin xyz="${camera_link} 0 ${height3 - axel_offset*2}" rpy="0 0 0" />
+        <parent link="link3" />
+        <child link="camera_link" />
+    </joint>
+
+    <!-- Camera -->
+    <link name="camera_link">
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <box size="${camera_link} ${camera_link} ${camera_link}" />
+            </geometry>
+        </collision>
+
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <box size="${camera_link} ${camera_link} ${camera_link}" />
+            </geometry>
+            <material name="red" />
+        </visual>
+
+        <inertial>
+            <mass value="1e-5" />
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+        </inertial>
+    </link>
     <!-- Robot tail -->
     <joint name="joint_tail" type="continuous">
         <origin rpy="0 0 0" xyz="-1 0 0" />
@@ -256,21 +291,22 @@
         <inertial>
             <origin xyz="0 0 0" rpy="0 0 0" />
             <mass value="0.5" />
-            <inertia ixx="0.000252666666667" ixy="0" ixz="0" iyy="0.000252666666667" iyz="0" izz="0.0005"/>
+            <inertia ixx="0.000252666666667" ixy="0" ixz="0" iyy="0.000252666666667" iyz="0"
+                izz="0.0005" />
         </inertial>
         <visual>
             <origin xyz="-0.2 0 0" rpy="0 ${pi/2} 0" />
             <geometry>
-                <cylinder radius="0.05" length="0.40"/>
+                <cylinder radius="0.05" length="0.40" />
             </geometry>
             <material name="Red">
                 <color rgba="0.7 0.1 0.1 1" />
             </material>
         </visual>
         <collision>
-            <origin xyz="-0.2 0 0" rpy="0 ${pi/2} 0"/>
+            <origin xyz="-0.2 0 0" rpy="0 ${pi/2} 0" />
             <geometry>
-                <cylinder radius="0.05" length="0.40"/>
+                <cylinder radius="0.05" length="0.40" />
             </geometry>
         </collision>
     </link>
